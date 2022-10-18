@@ -1,0 +1,38 @@
+[
+  {
+    "key": "test",
+    "description": "Для тестов, не трогать",
+    "translation": "Test of the %s"
+  },
+  {
+    "key": "test plural",
+    "description": "Для тестов, не трогать",
+    "plural": {
+      "other": "exactly %d spiders",
+      "one": "spider",
+      "=0": "no spiders",
+      "=2": "just pair of spiders"
+    }
+  },
+  {
+    "key": "transition_not_allowed",
+    "description": "Ошибка при попытке произвести запрещённое изменение состояния",
+    "translation": "Transition from '%s' to '%s' not allowed"
+  },
+  {
+    "key": "Should be shorter than %d symbols",
+    "translation": "Should be shorter than %d symbols"
+  },
+  {
+    "key": "Should be longer than %d symbols",
+    "translation": "Should be longer than %d symbols"
+  },
+  {
+    "key": "Deleted",
+    "translation": "Deleted"
+  },
+  {
+    "key": "Published",
+    "translation": "Published"
+  }
+]
