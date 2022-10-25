@@ -61,3 +61,12 @@ func (e *Error) Translate(ctx context.Context) string {
 
 	return printer.Sprintf(e.key, translatedParams...)
 }
+
+func (e *Error) Is(other error) bool {
+	switch err := other.(type) {
+	case *Error:
+		return e.key == err.key
+	}
+
+	return false
+}
