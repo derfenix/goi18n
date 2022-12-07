@@ -77,6 +77,10 @@ func GetPrinter(lang language.Tag) *message.Printer {
 
 func GetLanguages() []language.Tag {
 	if supportedLanguages == nil {
+		if builder == nil {
+			return nil
+		}
+
 		supportedLanguages = builder.Languages()
 
 		for idx := range supportedLanguages {
