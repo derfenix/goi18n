@@ -4,6 +4,7 @@ import (
 	"context"
 	"io/fs"
 	"net/http"
+	"sync"
 
 	"github.com/pkg/errors"
 	"golang.org/x/text/language"
@@ -16,7 +17,8 @@ import (
 var defaultLanguage = language.Russian
 
 var (
-	builder *catalog.Builder
+	initOnce sync.Once
+	builder  *catalog.Builder
 
 	supportedLanguages    []language.Tag
 	supportedLanguagesMap = map[string]struct{}{}
@@ -43,21 +45,27 @@ func TryTranslate(ctx context.Context, obj interface{}) (string, bool) {
 }
 
 func Init(fs fs.ReadDirFS) error {
-	if builder != nil {
-		return nil
-	}
+	var err error
 
-	initCatalog, err := internal.InitBuilder(fs)
-	if err != nil {
-		return errors.Wrap(err, "init catalog")
-	}
+	initOnce.Do(func() {
+		if builder != nil {
+			return
+		}
 
-	builder = initCatalog
+		initCatalog, err := internal.InitBuilder(fs)
+		if err != nil {
+			err = errors.Wrap(err, "init catalog")
 
-	// Fill the local cache
-	GetLanguages()
+			return
+		}
 
-	return nil
+		builder = initCatalog
+
+		// Fill the local cache
+		GetLanguages()
+	})
+
+	return err
 }
 
 func GetPrinter(lang language.Tag) *message.Printer {
